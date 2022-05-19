@@ -32,12 +32,13 @@ function Home({
   const [add, setAdd] = useState("");
   const [age, setAge] = useState("");
   const [bloodGroup, setBloodGroup] = useState("");
+  const [data, setData] = useState(null);
 
   console.log(name);
   console.log(email);
 
   return (
-    <div style={{ padding: 8 }}>
+    <div style={{ padding: 32 }}>
       <h1>Home</h1>
 
       <div
@@ -49,8 +50,6 @@ function Home({
           alignItems: "center",
         }}
       >
-        <h4>purpose: {purpose}</h4>
-        <Divider />
         <div style={{ margin: 8 }}>
           <Input
             style={{ width: 400, margin: 16 }}
@@ -129,29 +128,31 @@ function Home({
         <div style={{ margin: 8 }}>
           <Button
             onClick={async () => {
-              const result = await tx(readContracts["YourContract"].getPatient(), update => {
-                console.log("📡 Transaction Update:", update);
-                if (update && (update.status === "confirmed" || update.status === 1)) {
-                  console.log(" 🍾 Transaction " + update.hash + " finished!");
-                  console.log(
-                    " ⛽️ " +
-                      update.gasUsed +
-                      "/" +
-                      (update.gasLimit || update.gas) +
-                      " @ " +
-                      parseFloat(update.gasPrice) / 1000000000 +
-                      " gwei",
-                  );
-                }
-              });
-              console.log("awaiting metamask/web3 confirm result...", result);
+              const result = await readContracts["YourContract"].patients(address);
+              setData(result);
               console.log(result);
-              return;
             }}
           >
             Get Patient!
           </Button>
         </div>
+        {data && data.name === "" ? (
+          <h1>Please Generate your healthcard</h1>
+        ) : (
+          <div style={{ margin: 16 }}>
+            <Card title={`${address}`}>
+              <h1>{data?.name}</h1>
+              <li>
+                Blood Group: {data?.bloodgrp} &emsp;&emsp;&emsp; Age: {data?.age}
+              </li>
+              <li>
+                Email: {data?.email} &emsp;&emsp;&emsp; Phone {data?.phone}
+              </li>
+              <li></li>
+              <li>Address: {data?.add}</li>
+            </Card>
+          </div>
+        )}
       </div>
     </div>
   );

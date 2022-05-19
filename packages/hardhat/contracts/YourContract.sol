@@ -36,45 +36,26 @@ contract YourContract {
         patients[msg.sender] = patient;
     }
 
-    function getPatient()
-        public
-        view
-        returns (
-            string memory,
-            string memory,
-            string memory,
-            string memory,
-            string memory,
-            string memory
-        )
-    {
-        Patient memory patient = patients[msg.sender];
-        return (
-            patient.name,
-            patient.email,
-            patient.phone,
-            patient.age,
-            patient.bloodgrp,
-            patient.add
-        );
-    }
-
-    event SetPurpose(address sender, string purpose);
-
-    string public purpose = "Building Unstoppable Apps!!!";
-
-    constructor() payable {
-        // what should we do on deploy?
-    }
-
-    function setPurpose(string memory newPurpose) public {
-        purpose = newPurpose;
-        console.log(msg.sender, "set purpose to", purpose);
-        emit SetPurpose(msg.sender, purpose);
-    }
-
-    // to support receiving ETH by default
-    receive() external payable {}
-
-    fallback() external payable {}
+    // function getPatient()
+    //     public
+    //     view
+    //     returns (
+    //         string memory,
+    //         string memory,
+    //         string memory,
+    //         string memory,
+    //         string memory,
+    //         string memory
+    //     )
+    // {
+    //     Patient storage patient = patients[msg.sender];
+    //     return (
+    //         patient.name,
+    //         patient.email,
+    //         patient.phone,
+    //         patient.age,
+    //         patient.bloodgrp,
+    //         patient.add
+    //     );
+    // }
 }
